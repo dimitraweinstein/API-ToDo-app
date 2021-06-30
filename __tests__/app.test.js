@@ -28,31 +28,47 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns animals', async() => {
+    test('create todo', async() => {
 
       const expectation = [
         {
-          'id': 1,
-          'name': 'bessie',
-          'cool_factor': 3,
-          'owner_id': 1
+          'id': 7,
+          'todo_item': 'brush teeth',
+          'is_completed': false,
+          'owner_id': 2
         },
         {
-          'id': 2,
-          'name': 'jumpy',
-          'cool_factor': 4,
-          'owner_id': 1
+          'id': 8,
+          'todo_item': 'comb hair',
+          'is_completed': false,
+          'owner_id': 2
         },
         {
-          'id': 3,
-          'name': 'spot',
-          'cool_factor': 10,
-          'owner_id': 1
+          'id': 9,
+          'todo_item': 'brush teeth',
+          'is_completed': false,
+          'owner_id': 2
+        },
+        {
+          'id': 10,
+          'todo_item': 'jump rope',
+          'is_completed': false,
+          'owner_id': 2
         }
       ];
 
+      for (let todo of expectation) {
+        await fakeRequest(app)
+          .post('/api/todos')
+          .send(todo)
+          .set('Authorization', token)
+          .expect('Content-Type', /json/)
+          .expect(200);
+      }
+
       const data = await fakeRequest(app)
-        .get('/animals')
+        .get('/api/todos')
+        .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
 
