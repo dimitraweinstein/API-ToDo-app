@@ -74,5 +74,43 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
+
+    test('get todos', async() => {
+
+      const expectation = [
+        {
+          'id': 7,
+          'todo_item': 'brush teeth',
+          'is_completed': false,
+          'owner_id': 2
+        },
+        {
+          'id': 8,
+          'todo_item': 'comb hair',
+          'is_completed': false,
+          'owner_id': 2
+        },
+        {
+          'id': 9,
+          'todo_item': 'brush teeth',
+          'is_completed': false,
+          'owner_id': 2
+        },
+        {
+          'id': 10,
+          'todo_item': 'jump rope',
+          'is_completed': false,
+          'owner_id': 2
+        }
+      ];
+
+      const data = await fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
   });
 });
