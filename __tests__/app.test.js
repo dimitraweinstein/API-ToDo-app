@@ -112,5 +112,49 @@ describe('app routes', () => {
 
       expect(data.body).toEqual(expectation);
     });
+
+    test('update todos', async() => {
+
+      const expectation = [
+        {
+          'id': 7,
+          'todo_item': 'brush teeth',
+          'is_completed': false,
+          'owner_id': 2
+        },
+        {
+          'id': 8,
+          'todo_item': 'comb hair',
+          'is_completed': false,
+          'owner_id': 2
+        },
+        {
+          'id': 9,
+          'todo_item': 'brush teeth',
+          'is_completed': false,
+          'owner_id': 2
+        },
+        {
+          'id': 10,
+          'todo_item': 'jump rope',
+          'is_completed': true,
+          'owner_id': 2
+        }
+      ];
+
+      await fakeRequest(app)
+        .put('/api/todos/10')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+      
+      const data = await fakeRequest(app)
+        .get('/api/todos')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+    });
   });
 });
