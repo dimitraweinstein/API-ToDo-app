@@ -137,13 +137,19 @@ describe('app routes', () => {
         {
           'id': 10,
           'todo_item': 'jump rope',
-          'is_completed': false,
+          'is_completed': true,
           'owner_id': 2
         }
       ];
 
+      await fakeRequest(app)
+        .put('/api/todos/10')
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+      
       const data = await fakeRequest(app)
-        .get('/api/todos/10')
+        .get('/api/todos')
         .set('Authorization', token)
         .expect('Content-Type', /json/)
         .expect(200);
